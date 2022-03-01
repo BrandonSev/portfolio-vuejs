@@ -1,10 +1,15 @@
 <script setup>
-import { defineProps } from 'vue';
-import ButtonLink from '../ButtonLink/ButtonLink.vue'
+import { defineProps } from "vue";
+import ButtonLink from "../ButtonLink/ButtonLink.vue";
 
 defineProps({
-    titre: String,
-    description: String,
+  titre: String,
+  description: String,
+  textButton: String,
+  linkButton: {
+    type: String,
+    default: "/",
+  },
 });
 </script>
 
@@ -13,7 +18,7 @@ defineProps({
     <div className="hero_text">
       <h1 v-html="titre" />
       <p>{{ description }}</p>
-      <ButtonLink linkText="Voir mes réalisations" url="/mes-realisations"/>
+      <ButtonLink :linkText="textButton" :url="linkButton" />
     </div>
     <div className="hero_image"><img src="/image/Hero.png" alt="{alt}" /></div>
   </div>
@@ -31,7 +36,7 @@ defineProps({
       font-size: 38px;
       font-weight: bold;
       span {
-        color: var(--secondary)
+        color: var(--secondary);
       }
     }
 
@@ -70,7 +75,7 @@ defineProps({
   }
 }
 @media screen and (min-width: 1078px) {
-  .hero{
+  .hero {
     padding: 4rem 1rem;
     .hero_text {
       h1 {

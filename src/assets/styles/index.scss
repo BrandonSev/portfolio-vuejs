@@ -50,6 +50,13 @@ button {
   border-radius: 6px;
   cursor: pointer;
 }
+.button_small{
+  padding: .5rem;
+}
+.active {
+  max-width: fit-content;
+  border-bottom: 3px solid var(--secondary);
+}
 
 .pulse{
   animation: pulse 3s infinite;
