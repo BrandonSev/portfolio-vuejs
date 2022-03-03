@@ -5,10 +5,10 @@
     textButton="Me contacter"
     linkButton="/contact"
   />
-  <div className="project">
-    <div className="container">
-      <div className="project_wrapper">
-        <h2 className="active">Projets</h2>
+  <div class="project">
+    <div class="container">
+      <div class="project_wrapper">
+        <h2 class="active">Projets</h2>
         <swiper
           :slides-per-view="1"
           :space-between="16"
@@ -16,23 +16,23 @@
           :modules="[Autoplay]"
           :autoplay="{ delay: 7000 }"
         >
-          <swiper-slide v-for="project in projects" :key="project.id">
-            <div className="project_card">
-              <div className="project_card__header">
+          <swiper-slide v-for="(project, i) in projects" :key="project.id">
+            <div class="project_card">
+              <div class="project_card__header">
                 <img
                   :src="`http://localhost:8000/images/${project.images[0].src}`"
                   :alt="project.images.alt"
                 />
               </div>
-              <div className="project_card__body">
-                <p className="technology">{{ project.tags }}</p>
+              <div class="project_card__body">
+                <p class="technology">{{ project.tags }}</p>
                 <h3>{{ project.title }}</h3>
                 <p>
                   {{ project.description.slice(0, 140) }}
                   {{ project.description.length > 140 ? "..." : "" }}
                 </p>
-                <div className="project_card__button">
-                  <button className="button button_small pulse">
+                <div class="project_card__button">
+                  <button class="button button_small pulse" @click="handleModal(i)">
                     En savoir plus
                   </button>
                 </div>
@@ -42,6 +42,7 @@
         </swiper>
       </div>
     </div>
+    <Modal v-if="modalOpen" :project="projects[modalProjectId]" @closeModal="modalOpen = false" />
   </div>
 </template>
 
@@ -51,9 +52,12 @@ import { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/autoplay";
-import { onMounted, ref } from "vue";
+import {onMounted, ref} from "vue";
 import axios from "axios";
+import Modal from "./Modal/Modal.vue";
 
+const modalOpen = ref(false)
+const modalProjectId = ref(0)
 const projects = ref({});
 const breakpoints = {
   320: {
@@ -67,6 +71,11 @@ const breakpoints = {
     slidesPerView: 3,
   },
 };
+
+const handleModal = (i) => {
+  modalOpen.value = true
+  modalProjectId.value = i
+}
 
 onMounted(() => {
   axios
