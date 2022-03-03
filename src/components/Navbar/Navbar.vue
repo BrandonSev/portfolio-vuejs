@@ -2,15 +2,15 @@
   <nav>
     <div class="container">
       <ul class="navbar">
-        <li class="marker" />
+        <li class="marker" :style="`height: 3px; width: ${width}px; left: ${left}px`"/>
         <li>
-          <router-link :to="'/'" class="nav_item"> Accueil </router-link>
+          <router-link :to="'/'" class="nav_item" @click="handleWidth"> Accueil </router-link>
         </li>
 				<li>
-          <router-link :to="'/mes-realisations'" class="nav_item"> Réalisations </router-link>
+          <router-link :to="'/mes-realisations'" class="nav_item" @click="handleWidth"> Réalisations </router-link>
         </li>
 				<li>
-          <router-link :to="'/contact'" class="nav_item"> Contact </router-link>
+          <router-link :to="'/contact'" class="nav_item" @click="handleWidth"> Contact </router-link>
         </li>
       </ul>
     </div>
@@ -18,6 +18,52 @@
 </template>
 
 <script setup>
+import {onMounted, onUnmounted, ref} from "vue";
+
+const width = ref();
+const left = ref();
+
+const handleWidth = (e) => {
+  width.value = e.target.offsetWidth
+  left.value = e.target.parentNode.offsetLeft + e.target.offsetLeft
+}
+const checkPathnameAndMoveActive = (pathname) => {
+  if(pathname === "/"){
+    width.value = 59
+    left.value = 0
+    return;
+  }
+  if (pathname === "/mes-realisations"){
+    width.value = 97
+    left.value = 91
+    return;
+  }
+  if(pathname === "/contact"){
+    width.value = 62
+    left.value = 222
+  }
+}
+window.addEventListener('activemenu', e => checkPathnameAndMoveActive(e.detail))
+
+onMounted(() => {
+  if(window.location.pathname === "/"){
+    width.value = 59
+    left.value = 0
+    return;
+  }
+  if (window.location.pathname === "/mes-realisations"){
+    width.value = 97
+    left.value = 91
+    return;
+  }
+  if(window.location.pathname === "/contact"){
+    width.value = 62
+    left.value = 222
+  }
+})
+onUnmounted(() => {
+  window.removeEventListener('activemenu', checkPathnameAndMoveActive)
+})
 </script>
 
 <style lang="scss" scoped>
