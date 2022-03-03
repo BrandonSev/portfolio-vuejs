@@ -15,46 +15,56 @@
           </div>
           <form class="contact_form">
             <div class="contact_form__group">
-              <label htmlFor="name">Nom / Prénom:</label>
+              <label for="name">Nom / Prénom:</label>
               <input
                 type="text"
                 name="name"
                 id="name"
-                :class="`input_controll`"
+                :class="`input_controll ${prenomError ? 'input-error' : ''}`"
+                v-model="prenom"
               />
+              <span class="error">{{ prenomError }}</span>
             </div>
             <div class="contact_form__group">
-              <label htmlFor="email">Email:</label>
+              <label for="email">Email:</label>
               <input
                 type="email"
                 name="email"
                 id="email"
-                :class="`input_controll`"
+                :class="`input_controll ${emailError ? 'input-error' : ''}`"
+                v-model="email"
               />
+              <span class="error">{{ emailError }}</span>
             </div>
             <div class="contact_form__group">
-              <label htmlFor="subject">Sujet:</label>
+              <label for="subject">Sujet:</label>
               <input
-                type="subject"
+                type="text"
                 name="subject"
                 id="subject"
-                :class="`input_controll`"
+                :class="`input_controll ${subjectError ? 'input-error' : ''}`"
+                v-model="sujet"
               />
+              <span class="error">{{ subjectError }}</span>
             </div>
             <div class="contact_form__group">
-              <label htmlFor="message">Votre message:</label>
+              <label for="message">Votre message:</label>
               <textarea
                 rows="10"
                 id="message"
                 name="message"
-                :class="`input_controll`"
+                :class="`input_controll ${messageError ? 'input-error' : ''}`"
+                v-model="message"
+
               />
+              <span class="error">{{ messageError }}</span>
             </div>
             <div class="contact_form__group">
               <button
                 type="submit"
                 class="button pulse"
                 style="display: flex; align-items: center"
+                @click.prevent="handleSubmit"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +77,7 @@
                   v-if="loading"
                 >
                   <path
-                    fillRule="evenodd"
+                    fill-rule="evenodd"
                     d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
                   />
                   <path
@@ -86,6 +96,64 @@
 
 <script setup>
 import Hero from "../components/Hero/Hero.vue";
+import {computed, ref} from "vue";
+import axios from "axios";
+const prenom = ref('')
+const email = ref('')
+const sujet = ref('')
+const message = ref('')
+const isSubmited = ref(false)
+
+const prenomError = computed(() => {
+  if(!prenom.value && isSubmited.value){
+    return "Ce champ est obligatoire";
+  }
+})
+const emailError = computed(() => {
+    if(!email.value && isSubmited.value){
+      return "Ce champ est obligatoire"
+    }
+    if(email.value && !email.value.match('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')){
+      return "L'email est invalide"
+    }
+})
+const subjectError = computed(() => {
+    if(!sujet.value && isSubmited.value){
+      return "Ce champ est obligatoire"
+    }
+})
+const messageError = computed(() => {
+    if(!message.value && isSubmited.value){
+      return "Ce champ est obligatoire"
+    }
+    if(message.value && message.value.length < 30){
+      return "Votre message doit comporter au minimum 30 caractères"
+    }
+})
+
+const handleSubmit = () => {
+  isSubmited.value = true
+  if(!prenomError.value && !emailError.value && !subjectError.value && !messageError.value){
+    axios.post('http://localhost:8000/api/email/send', {
+      name: prenom.value,
+      email: email.value,
+      message: message.value,
+      subject: sujet.value
+    })
+    .then(res => {
+      if(res.status === 200){
+        alert('le mail a bien été envoyé')
+        isSubmited.value = false
+        prenom.value = ""
+        email.value = ""
+        sujet.value = ""
+        message.value = ""
+      }else {
+        alert('Une erreur est survenue lors de l\'envoi de mail');
+      }
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

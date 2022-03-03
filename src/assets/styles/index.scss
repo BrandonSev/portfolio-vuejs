@@ -46,7 +46,7 @@ button {
   display: inline-block;
   background-color: var(--secondary);
   padding: 1rem;
-  box-shadow: 0px 2px 13px rgba(0, 196, 240, 0.42);
+  box-shadow: 0 2px 13px rgba(0, 196, 240, 0.42);
   border-radius: 6px;
   cursor: pointer;
 }
@@ -60,6 +60,14 @@ button {
 
 .pulse{
   animation: pulse 3s infinite;
+}
+.error {
+  display: block;
+  margin-top: .5rem;
+  color: red
+}
+.input-error {
+  border: 1px solid red !important;
 }
 
 @keyframes pulse {
