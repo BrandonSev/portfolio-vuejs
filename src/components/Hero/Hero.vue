@@ -14,13 +14,13 @@ defineProps({
 </script>
 
 <template>
-  <div className="container hero">
-    <div className="hero_text">
+  <div class="container hero">
+    <div class="hero_text">
       <h1 v-html="titre" />
       <p>{{ description }}</p>
       <ButtonLink :linkText="textButton" :url="linkButton" />
     </div>
-    <div className="hero_image"><img src="/image/Hero.png" alt="{alt}" /></div>
+    <div class="hero_image"><img src="/image/Hero.png" alt="hero" /></div>
   </div>
 </template>
 
@@ -67,7 +67,8 @@ defineProps({
     text-align: inherit;
 
     .hero_text {
-      max-width: 520px;
+      min-width: 400px;
+      max-width: 300px;
       h1 {
         font-size: 46px;
       }
@@ -78,6 +79,7 @@ defineProps({
   .hero {
     padding: 4rem 1rem;
     .hero_text {
+      min-width: 500px;
       h1 {
         font-size: 64px;
       }

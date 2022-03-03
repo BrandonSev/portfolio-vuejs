@@ -63,7 +63,7 @@
               <button
                 type="submit"
                 class="button pulse"
-                style="display: flex; align-items: center"
+                style="display: flex; align-items: center; justify-content: center"
                 @click.prevent="handleSubmit"
               >
                 <svg
@@ -103,6 +103,7 @@ const email = ref('')
 const sujet = ref('')
 const message = ref('')
 const isSubmited = ref(false)
+const loading = ref(false)
 
 const prenomError = computed(() => {
   if(!prenom.value && isSubmited.value){
@@ -134,6 +135,7 @@ const messageError = computed(() => {
 const handleSubmit = () => {
   isSubmited.value = true
   if(!prenomError.value && !emailError.value && !subjectError.value && !messageError.value){
+    loading.value = true
     axios.post('http://localhost:8000/api/email/send', {
       name: prenom.value,
       email: email.value,
@@ -151,7 +153,9 @@ const handleSubmit = () => {
       }else {
         alert('Une erreur est survenue lors de l\'envoi de mail');
       }
+      loading.value = false
     })
+    .catch(err => console.log(err))
   }
 }
 </script>

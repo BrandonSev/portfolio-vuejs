@@ -25,7 +25,7 @@
       </swiper>
     </div>
     <div class="modal_body">
-      <p class="technology">{{ project.technology }}</p>
+      <p class="technology">{{ project.tags }}</p>
       <h2>{{ project.title }}</h2>
       <p class="description">{{ project.description }}</p>
       <div class="modal_button">
@@ -62,11 +62,9 @@ defineEmits(['closeModal'])
 
 <style lang="scss" scoped>
 .modal {
-  position: fixed;
-  left: 0;
-  top: 7vh;
-  bottom: 0;
-  right: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 90%;
   max-height: fit-content;
   max-width: fit-content;
@@ -74,125 +72,123 @@ defineEmits(['closeModal'])
   border-radius: 25px;
   background-color: var(--background);
   box-shadow: 1px 0 20px #000000AC;
-  animation: scaleIn .3s both;
+  transform: translate(-50%, -50%) !important;
   z-index: 3;
 
-&.hidden {
-   animation: scaleOut .3s both !important;
- }
+  &.hidden {
+    animation: scaleOut .3s both !important;
+  }
 
-.modal_header {
-  position: relative;
-  border-radius: 15px 15px 0 0;
-  overflow: hidden;
+  .modal_header {
+    position: relative;
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
 
-img {
-  width: 100%;
-  height: 230px;
-  max-height: 230px;
-  object-fit: cover;
-}
+    img {
+      width: 100%;
+      height: 230px;
+      max-height: 230px;
+      object-fit: cover;
+    }
 
-.slick-dots {
-  bottom: 10px;
+    .slick-dots {
+      bottom: 10px;
 
-.slick-active {
-button:before {
-  color: var(--secondary)
-}
-}
+      .slick-active {
+        button:before {
+          color: var(--secondary)
+        }
+      }
 
-button:before {
-  font-size: .8rem;
-  color: var(--primary);
-  opacity: 1;
-}
-}
+      button:before {
+        font-size: .8rem;
+        color: var(--primary);
+        opacity: 1;
+      }
+    }
 
-.dot {
-  border: none;
-  width: 10px;
-  height: 10px;
-  background: var(--primary);
-  border-radius: 50%;
-  margin: 0 5px;
-  padding: 5px;
-  cursor: pointer;
-}
+    .dot {
+      border: none;
+      width: 10px;
+      height: 10px;
+      background: var(--primary);
+      border-radius: 50%;
+      margin: 0 5px;
+      padding: 5px;
+      cursor: pointer;
+    }
 
-.dot:focus {
-  outline: none;
-}
+    .dot:focus {
+      outline: none;
+    }
 
-.dot.active {
-  background: var(--secondary);
-}
-}
+    .dot.active {
+      background: var(--secondary);
+    }
+  }
 
-.modal_body {
-  padding: 1.5rem;
-  background-color: var(--background);
-  color: var(--primary);
-  border-radius: 0 0 15px 15px;
+  .modal_body {
+    padding: 1.5rem;
+    background-color: var(--background);
+    color: var(--primary);
+    border-radius: 0 0 15px 15px;
 
-.technology {
-  color: var(--secondary);
-  padding-bottom: 1rem;
-  font-size: .9rem;
-}
+    .technology {
+      color: var(--secondary);
+      padding-bottom: 1rem;
+      font-size: .9rem;
+    }
 
-h2 {
-  font-size: 26px;
-}
+    h2 {
+      font-size: 26px;
+    }
 
-p.description {
-  color: var(--primary);
-  opacity: .8;
-  margin: 2rem 0;
-  font-size: .98rem;
-  line-height: 1.4;
-  max-height: 205px;
-  overflow: auto;
-}
+    p.description {
+      color: var(--primary);
+      opacity: .8;
+      margin: 2rem 0;
+      font-size: .98rem;
+      line-height: 1.4;
+      max-height: 205px;
+      overflow: auto;
+    }
 
-.modal_button {
-  display: flex;
-  justify-content: flex-end;
-  color: var(--primary);
-  font-size: 0.98rem;
-}
-}
+    .modal_button {
+      display: flex;
+      justify-content: flex-end;
+      color: var(--primary);
+      font-size: 0.98rem;
+    }
+  }
 
-.modal_close {
-  position: absolute;
-  top: -21px;
-  right: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: .4rem;
-  background-color: var(--primary);
-  border-radius: 50%;
-  border: 2px solid var(--secondary);
-  z-index: 2;
-  cursor: pointer;
+  .modal_close {
+    position: absolute;
+    top: -21px;
+    right: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .4rem;
+    background-color: var(--primary);
+    border-radius: 50%;
+    border: 2px solid var(--secondary);
+    z-index: 2;
+    cursor: pointer;
 
-svg {
-  width: 26px;
-}
-}
+    svg {
+      width: 26px;
+    }
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
   .modal {
-    top: 11vh;
     width: 65%;
   }
 }
 
 @media screen and (min-width: 1024px) {
   .modal {
-    top: 14vh;
     min-width: 700px;
     width: 40%;
   }
